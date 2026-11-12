@@ -25,3 +25,17 @@ venv/
 .idea/
 .DS_Store
 Thumbs.db
+
+
+# Local data: vector store and uploaded files (may contain personal data)
+backend/data/
+chroma_db/
+
+# Private samples (real resumes used for local testing)
+private/
+
+# Test and log artifacts
+.coverage
+htmlcov/
+*.log
+logs/
