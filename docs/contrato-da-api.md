@@ -105,8 +105,12 @@ Use `null` para um campo singular cuja informação não esteja disponível. Use
 }
 ```
 
+## Decisões tomadas
+
+- Provedor: Google Gemini, começando pelo plano gratuito da API. O modelo exato será definido na integração (Etapa 3).
+- Restrição de privacidade: no plano gratuito, os dados enviados podem ser usados pelo Google para melhorar seus produtos. Não enviar dados sensíveis nem informações pessoais de terceiros.
+
 ## Decisões ainda pendentes
 
-- Provedor e modelo da API de LLM.
-- Política de retenção e envio da descrição ao provedor escolhido.
-- Rota HTTP e formato de erros da API do backend.
+- Rota HTTP e formato de erros da API (Etapa 2).
+- Tratamento de competências comportamentais, hoje não separadas das técnicas (Etapa 3).
