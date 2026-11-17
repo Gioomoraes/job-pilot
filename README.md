@@ -24,7 +24,7 @@ Em uso:
 - Python 3.13.
 - pydantic-settings, para configuração validada.
 
-Planejadas (entram na etapa em que forem usadas): FastAPI, Google Gemini (plano gratuito da API), ChromaDB, LangChain e LangGraph. Cada dependência só é registrada em `backend/requirements.txt` depois de instalada.
+Planejadas (entram na etapa em que forem usadas): FastAPI, Google Gemini, ChromaDB. Cada dependência só é registrada em `backend/requirements.txt` depois de instalada.
 
 ## Estrutura do repositório
 

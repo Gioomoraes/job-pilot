@@ -4,20 +4,6 @@
 
 O Job Pilot é uma plataforma de análise de oportunidades profissionais com agentes de IA. Ele analisa descrições de vagas e currículos, identifica compatibilidades e lacunas e recomenda ações de preparação. Toda análise deve refletir somente o conteúdo fornecido e não pode inventar informações.
 
-## Roadmap
-
-| Marco | Entrega | Etapas do plano |
-|---|---|---|
-| 1 | Análise de vaga em texto (extração estruturada) | 1 a 3 |
-| 2 | Processamento de currículos em PDF | 4 |
-| 3 | Compatibilidade com pontuação determinística | 5 |
-| 4 | Base de conhecimento (RAG) e recomendações de estudo | 6 |
-| 5 | Agente com LangGraph e ferramentas | 7 |
-| 6 | Persistência, testes, segurança e Docker | 8 a 11 |
-| Evolução | Frontend, autenticação, comparação de vagas, deploy | 12 |
-
-Cada marco só começa depois que o anterior foi validado.
-
 ## Marco 1: análise de vaga em texto
 
 ### Objetivo
