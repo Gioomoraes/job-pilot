@@ -1,39 +1,78 @@
-# Analisador de Vagas
+# Job Pilot
 
-Projeto de portfólio para organizar, em JSON, as informações presentes em uma descrição de vaga colada pelo usuário. A análise deve preservar o que o texto diz, indicar lacunas relevantes e não inventar dados.
+Plataforma de análise de oportunidades profissionais com agentes de IA. O objetivo é analisar descrições de vagas e currículos, identificar compatibilidades e lacunas e recomendar ações de preparação, sempre a partir do conteúdo fornecido, sem inventar informações.
 
-## Escopo da primeira versão
+Este é um projeto de portfólio e de estudo, desenvolvido em etapas pequenas e validadas.
 
-- Receber uma descrição de vaga em texto.
-- Usar uma API de LLM para estruturar as informações de acordo com o contrato em [`docs/contrato-da-api.md`](docs/contrato-da-api.md).
-- Apresentar uma resposta estruturada ao usuário.
-- Representar informações singulares ausentes com `null` e listas sem itens com `[]`.
+## Estado atual
 
-Ficam fora da primeira versão: login, banco de dados, RAG e importação automática de links. O sistema não deve consultar fontes externas para completar a descrição.
+**Etapa 1 concluída (estrutura do projeto).**
 
-## Tecnologias planejadas
+Existe hoje:
 
-- Frontend: React + TypeScript.
-- Backend: Python + FastAPI.
-- Análise: API de LLM; provedor ainda a definir.
+- Estrutura do repositório e documentação inicial.
+- Ambiente Python configurado (Python 3.13).
+- Configuração por variáveis de ambiente, validada na inicialização.
+- Contrato de dados da análise de vagas ([`docs/contrato-da-api.md`](docs/contrato-da-api.md)).
 
-## Estrutura inicial
+Ainda **não** existe: API, integração com LLM, processamento de currículos, base de conhecimento (RAG) ou agente. O que está planejado, e em qual ordem, está em [`docs/escopo.md`](docs/escopo.md).
+
+## Tecnologias
+
+Em uso:
+
+- Python 3.13.
+- pydantic-settings, para configuração validada.
+
+Planejadas (entram na etapa em que forem usadas): FastAPI, Google Gemini (plano gratuito da API), ChromaDB, LangChain e LangGraph. Cada dependência só é registrada em `backend/requirements.txt` depois de instalada.
+
+## Estrutura do repositório
 
 ```text
 .
 ├── backend/
-│   ├── README.md
-│   └── app/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   └── core/
+│   │       ├── __init__.py
+│   │       └── config.py
+│   ├── .env.example
+│   └── requirements.txt
 ├── docs/
 │   ├── contrato-da-api.md
 │   └── escopo.md
-├── frontend/
-│   ├── README.md
-│   └── src/
 ├── .gitignore
 └── README.md
 ```
 
-## Estado atual
+## Como executar
 
-Este repositório contém apenas a estrutura e documentação iniciais. A aplicação e as integrações ainda não foram implementadas, e não há comandos de execução configurados.
+Pré-requisitos: Python 3.13 e Git. Os comandos abaixo usam PowerShell (Windows). Em macOS e Linux, use `python3` no lugar de `python` e ative o ambiente com `source .venv/bin/activate`.
+
+```powershell
+git clone https://github.com/Gioomoraes/prisma-agent.git
+cd prisma-agent/backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Se o PowerShell bloquear a execução de scripts, rode `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` e tente a ativação de novo.
+
+Para validar a configuração:
+
+```powershell
+python -c "from app.core.config import get_settings; s = get_settings(); print(s.app_env, s.log_level)"
+```
+
+O resultado esperado é `development INFO`. As variáveis aceitas estão documentadas em [`backend/.env.example`](backend/.env.example). O arquivo `.env` não é versionado.
+
+## Documentação
+
+- [`docs/escopo.md`](docs/escopo.md): escopo do produto e roadmap em marcos.
+- [`docs/contrato-da-api.md`](docs/contrato-da-api.md): contrato de entrada e saída da análise de vagas.
+
+## Privacidade
+
+No plano gratuito da API do Gemini, os dados enviados podem ser usados pelo provedor para melhorar seus produtos. Não envie dados sensíveis nem informações pessoais de terceiros.

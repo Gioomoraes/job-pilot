@@ -2,7 +2,7 @@
 
 ## Visão geral
 
-O Prisma Agent é uma plataforma de análise de oportunidades profissionais com agentes de IA. Ele analisa descrições de vagas e currículos, identifica compatibilidades e lacunas e recomenda ações de preparação. Toda análise deve refletir somente o conteúdo fornecido e não pode inventar informações.
+O Job Pilot é uma plataforma de análise de oportunidades profissionais com agentes de IA. Ele analisa descrições de vagas e currículos, identifica compatibilidades e lacunas e recomenda ações de preparação. Toda análise deve refletir somente o conteúdo fornecido e não pode inventar informações.
 
 ## Roadmap
 
