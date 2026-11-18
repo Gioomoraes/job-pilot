@@ -1,1 +1,12 @@
+# Configuração e ambiente
 pydantic-settings==2.16.2
+
+# API
+fastapi==0.163.2
+uvicorn==0.54.0         
+
+# LLM e Embeddings
+google-genai==3.4.0
+
+# Vector store (RAG)
+chromadb==1.5.9
