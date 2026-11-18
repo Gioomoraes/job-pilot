@@ -1,30 +1,37 @@
 # Job Pilot
 
-Plataforma de análise de oportunidades profissionais com agentes de IA. O objetivo é analisar descrições de vagas e currículos, identificar compatibilidades e lacunas e recomendar ações de preparação, sempre a partir do conteúdo fornecido, sem inventar informações.
+Plataforma de análise de oportunidades profissionais com IA. O objetivo é analisar descrições de vagas e currículos, identificar compatibilidades e lacunas e recomendar ações de preparação, sempre a partir do conteúdo fornecido, sem inventar informações.
 
 Este é um projeto de portfólio e de estudo, desenvolvido em etapas pequenas e validadas.
 
 ## Estado atual
 
-**Etapa 1 concluída (estrutura do projeto).**
+**Preparação para a Etapa 2 (API com FastAPI).**
 
-Existe hoje:
+Concluído até aqui:
 
 - Estrutura do repositório e documentação inicial.
 - Ambiente Python configurado (Python 3.13).
 - Configuração por variáveis de ambiente, validada na inicialização.
 - Contrato de dados da análise de vagas ([`docs/contrato-da-api.md`](docs/contrato-da-api.md)).
+- Dependências de LLM, embeddings e vector store instaladas.
 
-Ainda **não** existe: API, integração com LLM, processamento de currículos, base de conhecimento (RAG) ou agente. O que está planejado, e em qual ordem, está em [`docs/escopo.md`](docs/escopo.md).
+Ainda **não** existe: API, integração com LLM ativa, processamento de currículos ou base de conhecimento (RAG). O que está planejado, e em qual ordem, está em [`docs/escopo.md`](docs/escopo.md).
 
 ## Tecnologias
 
-Em uso:
+Instaladas e em uso:
 
 - Python 3.13.
-- pydantic-settings, para configuração validada.
+- `pydantic-settings` — configuração validada por variáveis de ambiente.
+- `uvicorn` — servidor ASGI (usado a partir da Etapa 2).
+- `google-genai` — SDK oficial do Gemini para LLM e embeddings (usado a partir da Etapa 3).
+- `chromadb` — banco de dados vetorial local para RAG (usado a partir da Etapa 6).
 
-Planejadas (entram na etapa em que forem usadas): FastAPI, Google Gemini, ChromaDB. Cada dependência só é registrada em `backend/requirements.txt` depois de instalada.
+A instalar (cada dependência entra no `requirements.txt` somente após instalada):
+
+- `fastapi` — framework da API REST (Etapa 2).
+- `pypdf` — extração de texto de PDFs (Etapa 4).
 
 ## Estrutura do repositório
 
@@ -41,6 +48,7 @@ Planejadas (entram na etapa em que forem usadas): FastAPI, Google Gemini, Chroma
 ├── docs/
 │   ├── contrato-da-api.md
 │   └── escopo.md
+├── frontend/
 ├── .gitignore
 └── README.md
 ```
@@ -50,8 +58,8 @@ Planejadas (entram na etapa em que forem usadas): FastAPI, Google Gemini, Chroma
 Pré-requisitos: Python 3.13 e Git. Os comandos abaixo usam PowerShell (Windows). Em macOS e Linux, use `python3` no lugar de `python` e ative o ambiente com `source .venv/bin/activate`.
 
 ```powershell
-git clone https://github.com/Gioomoraes/prisma-agent.git
-cd prisma-agent/backend
+git clone https://github.com/Gioomoraes/job-pilot.git
+cd job-pilot/backend
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
