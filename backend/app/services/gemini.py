@@ -58,7 +58,7 @@ def analyze_job_description(descricao: str) -> JobAnalysis:
     )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.5-flash",
         contents=_EXTRACTION_PROMPT.format(descricao=descricao),
         config=types.GenerateContentConfig(
             # response_mime_type instrui o Gemini a retornar JSON puro,
