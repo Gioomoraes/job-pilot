@@ -6,7 +6,7 @@ Este é um projeto de portfólio e de estudo, desenvolvido em etapas pequenas e 
 
 ## Estado atual
 
-**Preparação para a Etapa 2 (API com FastAPI).**
+**Etapa 3 concluída (Marco 1: Análise de Vagas com LLM ativa e validada).**
 
 Concluído até aqui:
 
@@ -14,23 +14,25 @@ Concluído até aqui:
 - Ambiente Python configurado (Python 3.13).
 - Configuração por variáveis de ambiente, validada na inicialização.
 - Contrato de dados da análise de vagas ([`docs/contrato-da-api.md`](docs/contrato-da-api.md)).
-- Dependências de LLM, embeddings e vector store instaladas.
+- API FastAPI criada com validação por Pydantic (`/api/v1/analyze`).
+- Integração real com o Google Gemini (`google-genai` com modelo `gemini-3.5-flash`) para extração estruturada de descrições de vagas.
+- Documentação interativa via Swagger UI (`/docs`).
 
-Ainda **não** existe: API, integração com LLM ativa, processamento de currículos ou base de conhecimento (RAG). O que está planejado, e em qual ordem, está em [`docs/escopo.md`](docs/escopo.md).
+Próximo passo: **Etapa 4 (Marco 2)** — Processamento e extração de texto de currículos em PDF.
 
 ## Tecnologias
 
 Instaladas e em uso:
 
 - Python 3.13.
+- `fastapi` — framework da API REST.
+- `uvicorn` — servidor ASGI.
 - `pydantic-settings` — configuração validada por variáveis de ambiente.
-- `uvicorn` — servidor ASGI (usado a partir da Etapa 2).
-- `google-genai` — SDK oficial do Gemini para LLM e embeddings (usado a partir da Etapa 3).
+- `google-genai` — SDK oficial do Gemini para LLM e embeddings.
 - `chromadb` — banco de dados vetorial local para RAG (usado a partir da Etapa 6).
 
-A instalar (cada dependência entra no `requirements.txt` somente após instalada):
+A instalar:
 
-- `fastapi` — framework da API REST (Etapa 2).
 - `pypdf` — extração de texto de PDFs (Etapa 4).
 
 ## Estrutura do repositório
@@ -40,9 +42,21 @@ A instalar (cada dependência entra no `requirements.txt` somente após instalad
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
-│   │   └── core/
+│   │   ├── main.py
+│   │   ├── api/
+│   │   │   ├── __init__.py
+│   │   │   └── routes/
+│   │   │       ├── __init__.py
+│   │   │       └── jobs.py
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   └── config.py
+│   │   ├── models/
+│   │   │   ├── __init__.py
+│   │   │   └── job.py
+│   │   └── services/
 │   │       ├── __init__.py
-│   │       └── config.py
+│   │       └── gemini.py
 │   ├── .env.example
 │   └── requirements.txt
 ├── docs/
