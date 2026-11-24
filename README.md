@@ -6,7 +6,7 @@ Este é um projeto de portfólio e de estudo, desenvolvido em etapas pequenas e 
 
 ## Estado atual
 
-**Etapa 3 concluída (Marco 1: Análise de Vagas com LLM ativa e validada).**
+**Etapa 4 concluída (Marco 2: Leitura e extração de currículos em PDF ativa e validada).**
 
 Concluído até aqui:
 
@@ -16,9 +16,10 @@ Concluído até aqui:
 - Contrato de dados da análise de vagas ([`docs/contrato-da-api.md`](docs/contrato-da-api.md)).
 - API FastAPI criada com validação por Pydantic (`/api/v1/analyze`).
 - Integração real com o Google Gemini (`google-genai` com modelo `gemini-3.5-flash`) para extração estruturada de descrições de vagas.
+- Upload e extração de texto de currículos em PDF com `pypdf` e `python-multipart` (`/api/v1/resumes/upload`).
 - Documentação interativa via Swagger UI (`/docs`).
 
-Próximo passo: **Etapa 4 (Marco 2)** — Processamento e extração de texto de currículos em PDF.
+Próximo passo: **Etapa 5 (Marco 2)** — Estruturação do currículo com Gemini (extração de competências, experiências e formação).
 
 ## Tecnologias
 
@@ -27,13 +28,11 @@ Instaladas e em uso:
 - Python 3.13.
 - `fastapi` — framework da API REST.
 - `uvicorn` — servidor ASGI.
+- `python-multipart` — manipulação de uploads multipart/form-data.
+- `pypdf` — extração e processamento de documentos PDF.
 - `pydantic-settings` — configuração validada por variáveis de ambiente.
 - `google-genai` — SDK oficial do Gemini para LLM e embeddings.
 - `chromadb` — banco de dados vetorial local para RAG (usado a partir da Etapa 6).
-
-A instalar:
-
-- `pypdf` — extração de texto de PDFs (Etapa 4).
 
 ## Estrutura do repositório
 
@@ -47,16 +46,19 @@ A instalar:
 │   │   │   ├── __init__.py
 │   │   │   └── routes/
 │   │   │       ├── __init__.py
-│   │   │       └── jobs.py
+│   │   │       ├── jobs.py
+│   │   │       └── resumes.py
 │   │   ├── core/
 │   │   │   ├── __init__.py
 │   │   │   └── config.py
 │   │   ├── models/
 │   │   │   ├── __init__.py
-│   │   │   └── job.py
+│   │   │   ├── job.py
+│   │   │   └── resume.py
 │   │   └── services/
 │   │       ├── __init__.py
-│   │       └── gemini.py
+│   │       ├── gemini.py
+│   │       └── pdf.py
 │   ├── .env.example
 │   └── requirements.txt
 ├── docs/
