@@ -6,7 +6,7 @@ Este é um projeto de portfólio e de estudo, desenvolvido em etapas pequenas e 
 
 ## Estado atual
 
-**Etapa 4 concluída (Marco 2: Leitura e extração de currículos em PDF ativa e validada).**
+**Etapa 5 concluída (Marco 2 concluído: Extração e Estruturação de Currículos com IA ativas e validadas).**
 
 Concluído até aqui:
 
@@ -17,9 +17,10 @@ Concluído até aqui:
 - API FastAPI criada com validação por Pydantic (`/api/v1/analyze`).
 - Integração real com o Google Gemini (`google-genai` com modelo `gemini-3.5-flash`) para extração estruturada de descrições de vagas.
 - Upload e extração de texto de currículos em PDF com `pypdf` e `python-multipart` (`/api/v1/resumes/upload`).
+- Estruturação semântica de currículo com IA (`gemini-3.5-flash`), extraindo experiências, competências, formação, certificações e idiomas (`/api/v1/resumes/analyze`).
 - Documentação interativa via Swagger UI (`/docs`).
 
-Próximo passo: **Etapa 5 (Marco 2)** — Estruturação do currículo com Gemini (extração de competências, experiências e formação).
+Próximo passo: **Etapa 6 (Marco 3)** — Comparação entre Vaga e Currículo (Motor de Compatibilidade e Análise de Gaps).
 
 ## Tecnologias
 
