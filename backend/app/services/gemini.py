@@ -3,14 +3,10 @@ from google.genai import types
 
 from app.core.config import get_settings
 from app.models.job import JobAnalysis
+from app.models.resume import ResumeAnalysis
 
 # ---------------------------------------------------------------------------
-# Prompt de extração
-# ---------------------------------------------------------------------------
-# O prompt instrui o modelo a agir apenas como extrator — sem inventar fatos,
-# sem normalizar sinônimos e sem deduzir informações ausentes.
-# As regras aqui espelham diretamente os princípios do contrato da API
-# definidos em docs/contrato-da-api.md.
+# Prompt de extração de vaga
 # ---------------------------------------------------------------------------
 _EXTRACTION_PROMPT = """\
 Você é um assistente especializado em análise de descrições de vagas de emprego.
@@ -30,46 +26,70 @@ DESCRIÇÃO DA VAGA:
 {descricao}
 """
 
+# ---------------------------------------------------------------------------
+# Prompt de extração de currículo
+# ---------------------------------------------------------------------------
+_RESUME_EXTRACTION_PROMPT = """\
+Você é um assistente especializado em análise e estruturação de currículos profissionais.
+Sua única função é extrair e organizar os dados presentes no texto do currículo fornecido.
 
-def analyze_job_description(descricao: str) -> JobAnalysis:
-    """
-    Envia a descrição da vaga ao Gemini e retorna a análise estruturada.
+REGRAS OBRIGATÓRIAS:
+- Use apenas as informações presentes no texto. Não invente, complete ou deduza fatos ausentes.
+- Use null para campos singulares cuja informação não esteja declarada no texto.
+- Use lista vazia [] quando não houver itens daquele tipo no texto.
+- Em "competencias_tecnicas", liste todas as linguagens, frameworks, bibliotecas, ferramentas, \
+bancos de dados, plataformas de nuvem e metodologias citadas explicitamente no currículo.
+- Em "links", inclua URLs ou perfis mencionados (como LinkedIn, GitHub, portfólio).
+- Em "experiencias", extraia cargo, empresa, período e a lista de atividades/realizações declaradas.
+- Em "formacao", extraia curso, instituição, período e status (ex: "Em andamento", "Concluído").
+- Não acrescente informações de fontes externas.
 
-    Fluxo:
-    1. Monta o prompt com as regras de extração + texto da vaga.
-    2. Chama a API do Gemini pedindo resposta em JSON com o schema de JobAnalysis.
-    3. Converte o JSON retornado em um objeto JobAnalysis validado pelo Pydantic.
+TEXTO DO CURRÍCULO:
+{texto}
+"""
 
-    Raises:
-        ValueError: se a chave da API não estiver configurada.
-        Exception: propaga erros da API do Gemini para o handler da rota.
-    """
+
+def _get_gemini_client() -> genai.Client:
     settings = get_settings()
-
     if not settings.gemini_api_key:
         raise ValueError(
             "GEMINI_API_KEY não configurada. "
             "Adicione a chave no arquivo backend/.env."
         )
+    return genai.Client(api_key=settings.gemini_api_key.get_secret_value())
 
-    # Inicializa o cliente com a chave lida de forma segura via SecretStr
-    client = genai.Client(
-        api_key=settings.gemini_api_key.get_secret_value()
-    )
+
+def analyze_job_description(descricao: str) -> JobAnalysis:
+    """
+    Envia a descrição da vaga ao Gemini e retorna a análise estruturada.
+    """
+    client = _get_gemini_client()
 
     response = client.models.generate_content(
         model="gemini-3.5-flash",
         contents=_EXTRACTION_PROMPT.format(descricao=descricao),
         config=types.GenerateContentConfig(
-            # response_mime_type instrui o Gemini a retornar JSON puro,
-            # sem texto adicional nem blocos de código markdown.
             response_mime_type="application/json",
-            # response_schema passa o modelo Pydantic para que o Gemini
-            # respeite exatamente os campos e tipos definidos no contrato.
             response_schema=JobAnalysis,
         ),
     )
 
-    # model_validate_json valida e converte o JSON retornado pelo Gemini
-    # para um objeto JobAnalysis, garantindo que o contrato foi respeitado.
     return JobAnalysis.model_validate_json(response.text)
+
+
+def analyze_resume_text(texto_curriculo: str) -> ResumeAnalysis:
+    """
+    Envia o texto bruto do currículo ao Gemini e retorna a estrutura padronizada em JSON.
+    """
+    client = _get_gemini_client()
+
+    response = client.models.generate_content(
+        model="gemini-3.5-flash",
+        contents=_RESUME_EXTRACTION_PROMPT.format(texto=texto_curriculo),
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            response_schema=ResumeAnalysis,
+        ),
+    )
+
+    return ResumeAnalysis.model_validate_json(response.text)
